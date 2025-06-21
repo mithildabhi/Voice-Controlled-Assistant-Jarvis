@@ -2,9 +2,11 @@ import speech_recognition as sr
 import webbrowser
 import pyttsx3
 import musiclibrary
+import requests
 
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()
+news_api_key = "c6b294eb29764f4684eeb02f8b48b121"
 
 def speak(text):
     # engine.say("I will speak this text")
@@ -26,6 +28,20 @@ def processCommand(c):
         songs = c.lower().split(" ")[1]
         link = musiclibrary.music[songs]
         webbrowser.open(link)
+    
+    elif "news" in c.lower():
+        r = requests.get(f"https://newsapi.org/v2/top-headlines?country=in&apiKey={news_api_key}")
+        if r.status_code == 200:
+            data = r.json()
+            articles = data.get("articles", [])
+            
+            for article in articles:
+                speak(article["title"])
+    
+    else:
+        # Let openai handle the rest of the commands
+        pass
+         
 if __name__ == '__main__':
     speak("Initializing Jarvis...")
     while True:
