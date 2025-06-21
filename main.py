@@ -11,7 +11,8 @@ import pygame
 
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()
-news_api_key = "c6b294eb29764f4684eeb02f8b48b121"
+news_api_key = "NEWS_API_KEY"
+GEMINI_API_KEY = "GEMINI_API_KEY"
 
 def speak_old(text):
     # engine.say("I will speak this text")
@@ -33,8 +34,7 @@ def speak(text):
 def aiProcess(command):
     load_dotenv()
 
-    genai.configure(api_key="AIzaSyAMmtIRkAr455pl1BJY1LjNijjEPMR-vYM")
-    # genai.configure(api_key="GEMINI_API_KEY")
+    genai.configure(api_key=GEMINI_API_KEY) # SET API KEY IN ENV FILE
     llm = genai.GenerativeModel("gemini-1.5-flash")
 
     response = llm.generate_content(command + " in 2 to 3 sentences")
