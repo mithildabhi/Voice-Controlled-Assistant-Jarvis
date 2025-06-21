@@ -3,16 +3,43 @@ import webbrowser
 import pyttsx3
 import musiclibrary
 import requests
+import google.generativeai as genai
+import os 
+from dotenv import load_dotenv
+from gtts import gTTS
+import pygame
 
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()
 news_api_key = "c6b294eb29764f4684eeb02f8b48b121"
 
-def speak(text):
+def speak_old(text):
     # engine.say("I will speak this text")
     engine.say(text)
     engine.runAndWait()
+
+def speak(text):
+    tts = gTTS(text)
+    tts.save("output.mp3")
+    pygame.mixer.init() # initialize pygame mixer
+    pygame.mixer.music.load("output.mp3") # load the audio file
+    pygame.mixer.music.play() # play
+    while pygame.mixer.music.get_busy():
+        pygame.time.Clock().tick(10)
     
+    pygame.mixer.music.unload()
+    
+
+def aiProcess(command):
+    load_dotenv()
+
+    genai.configure(api_key="AIzaSyAMmtIRkAr455pl1BJY1LjNijjEPMR-vYM")
+    # genai.configure(api_key="GEMINI_API_KEY")
+    llm = genai.GenerativeModel("gemini-1.5-flash")
+
+    response = llm.generate_content(command + " in 2 to 3 sentences")
+    return response.text 
+        
 def processCommand(c):
     if "open google" in c.lower():
         webbrowser.open("https://google.com")    
@@ -40,7 +67,8 @@ def processCommand(c):
     
     else:
         # Let openai handle the rest of the commands
-        pass
+        output = aiProcess(c)
+        speak(output)
          
 if __name__ == '__main__':
     speak("Initializing Jarvis...")
@@ -67,9 +95,6 @@ if __name__ == '__main__':
                     audio = r.listen(source, timeout= 3)
                     command = r.recognize_google(audio)
                     processCommand(command)
-                    
-                
-        except sr.UnknownValueError:
-            print("Could not understand audio")
-        except sr.RequestError as e:
+
+        except Exception as e:
             print("Error; {0}".format(e))
