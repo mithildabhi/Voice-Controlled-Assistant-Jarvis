@@ -1,0 +1,16 @@
+pip install speechrecognition pyaudio
+pip install setuptools
+pip install webbrowser
+pip install pyttsx3 
+pip install pocketsphinx #speech
+pip install openAI
+pip install google-generativeai
+pip install os
+pip install gTTS
+pip install pygame
+
+
+GEMINI_API_KEY=AIzaSyAMmtIRkAr455pl1BJY1LjNijjEPMR-vYM
+news_api_key = "c6b294eb29764f4684eeb02f8b48b121"
+
+ .\mithilenv\Scripts\activate.ps1
