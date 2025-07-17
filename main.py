@@ -19,8 +19,8 @@ assistant_thread = None
 
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()
-news_api_key = "c6b294eb29764f4684eeb02f8b48b121"
-GEMINI_API_KEY = "AIzaSyCIj8WBTttMWnrN8o4q3U7OZH5PQKR2asE"
+news_api_key = "NEWS_API_KEY"  # Replace with your actual API key
+GEMINI_API_KEY = "GEMINI_API_KEY"  # Replace with your actual API key
 
 def speak_old(text):
     engine.say(text)
